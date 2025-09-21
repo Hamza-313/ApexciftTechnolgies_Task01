@@ -2,6 +2,7 @@ import streamlit as st
 import joblib
 import numpy as np
 import matplotlib.pyplot as plt
+import xgboost as xgb   # make sure xgboost is in requirements.txt
 
 st.title("Student Average Score Predictor")
 
@@ -9,7 +10,10 @@ st.title("Student Average Score Predictor")
 uploaded_model = st.file_uploader("student_score_predictor_xgb.pkl", type=["pkl"])
 
 if uploaded_model is not None:
+    # Load the model
     model = joblib.load(uploaded_model)
+
+    st.success("✅ Model loaded successfully!")
 
     # Input fields
     math = st.number_input("Math Score", 0, 100)
@@ -17,11 +21,14 @@ if uploaded_model is not None:
     science = st.number_input("Science Score", 0, 100)
 
     if st.button("Predict Average"):
+        # Prepare input
         features = np.array([[math, history, science]])
-        prediction = model.predict(features)[0]
-        st.success(f"Predicted Average Score: {prediction:.2f}")
 
-        # Optional: visualize input scores
+        # Run prediction
+        prediction = model.predict(features)[0]
+        st.success(f"🎯 Predicted Average Score: {prediction:.2f}")
+
+        # Visualize input
         subjects = ["Math", "History", "Science"]
         scores = [math, history, science]
 
