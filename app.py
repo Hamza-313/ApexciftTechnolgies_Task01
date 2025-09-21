@@ -1,8 +1,9 @@
 import streamlit as st
+import xgboost as xgb 
 import joblib
 import numpy as np
 import matplotlib.pyplot as plt
-import xgboost as xgb   # make sure xgboost is in requirements.txt
+  # make sure xgboost is in requirements.txt
 
 st.title("Student Average Score Predictor")
 
@@ -10,10 +11,13 @@ st.title("Student Average Score Predictor")
 uploaded_model = st.file_uploader("student_score_predictor_xgb.pkl", type=["pkl"])
 
 if uploaded_model is not None:
-    # Load the model
-    model = joblib.load(uploaded_model)
+    try:
+        model = joblib.load(uploaded_model)
+        st.success("✅ Model loaded successfully!")
+        st.write("Debug: Model type =", type(model))
+    except Exception as e:
+        st.error(f"❌ Failed to load model: {e}")
 
-    st.success("✅ Model loaded successfully!")
 
     # Input fields
     math = st.number_input("Math Score", 0, 100)
@@ -39,3 +43,4 @@ if uploaded_model is not None:
         st.pyplot(fig)
 else:
     st.info("student_score_predictor_xgb.pkl")
+
