@@ -6,10 +6,10 @@ import matplotlib.pyplot as plt
 st.title("Student Average Score Predictor")
 
 # Upload the model file
-uploaded_model = st.file_uploader("Upload your trained model (.pkl)", type=["pkl"])
+uploaded_model = st.file_uploader("student_score_predictor_xgb.pkl", type=["pkl"])
 
 if uploaded_model is not None:
-    model = joblib.load(student_score_predictor_xgb.pkl)
+    model = joblib.load(uploaded_model)
 
     # Input fields
     math = st.number_input("Math Score", 0, 100)
@@ -32,4 +32,3 @@ if uploaded_model is not None:
         st.pyplot(fig)
 else:
     st.info("student_score_predictor_xgb.pkl")
-
